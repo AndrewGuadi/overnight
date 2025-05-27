@@ -11,3 +11,12 @@ def home():
     my_bio = bio(current_user.name, 30, 'Developer', sample_goal)
     return render_template('private/home.html',
                            user=current_user, bio=my_bio)
+
+
+@main_bp.route('/')
+def sign_up():
+    return render_template('public/signup.html')
+
+@main_bp.route('/login')
+def login():
+    return render_template('public/login.html')
