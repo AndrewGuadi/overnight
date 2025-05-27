@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Future You - Login</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: 'rgba(255, 255, 255, 0.25)',
+                        secondary: 'rgba(255, 255, 255, 0.1)',
+                        dark: 'rgba(0, 0, 0, 0.2)',
+                        accent: 'rgba(148, 163, 184, 0.3)',
+                    },
+                    boxShadow: {
+                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+                        'neumorphic': '20px 20px 60px #bebebe, -20px -20px 60px #ffffff',
+                        'inner-glass': 'inset 0 0 12px rgba(255, 255, 255, 0.5)',
+                    },
+                    backdropBlur: {
+                        'sm': '4px',
+                        'md': '8px',
+                        'lg': '16px',
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        
+        .hybrid-card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 20px;
+            box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.2), -20px -20px 60px rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .floating {
+            animation: floating 6s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .glow {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+        
+        .input-glass {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .input-glass:focus {
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4);
+        }
+        
+        .btn-glass {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-glass:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .parallax-bg {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="fixed inset-0 overflow-hidden">
+        <div class="absolute inset-0 bg-black opacity-20"></div>
+        <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+            <div class="w-64 h-64 rounded-full bg-white opacity-10 blur-3xl"></div>
+        </div>
+        <div class="absolute top-1/4 left-1/4 w-32 h-32 rounded-full bg-purple-300 opacity-20 blur-2xl"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-40 h-40 rounded-full bg-blue-300 opacity-20 blur-2xl"></div>
+    </div>
+
+    <div class="relative w-full max-w-md mx-auto">
+        <!-- Login Card -->
+        <div class="hybrid-card p-8 floating">
+            <div class="text-center mb-8">
+                <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-white bg-opacity-20 backdrop-blur-md border-4 border-white border-opacity-30 shadow-lg flex items-center justify-center">
+                    <i class="fas fa-user-astronaut text-white text-3xl"></i>
+                </div>
+                <h1 class="text-3xl font-bold text-white glow mb-2">Welcome Back</h1>
+                <p class="text-white opacity-80">Continue your journey to your future self</p>
+            </div>
+            
+            <form id="login-form" class="space-y-4">
+                <div>
+                    <label class="block text-white text-sm font-medium mb-1">Email</label>
+                    <div class="relative">
+                        <input type="email" class="w-full px-4 py-3 pl-10 rounded-xl input-glass text-white placeholder-white placeholder-opacity-70 focus:outline-none" placeholder="your@email.com">
+                        <i class="fas fa-envelope absolute left-3 top-1/2 transform -translate-y-1/2 text-white opacity-70"></i>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-white text-sm font-medium mb-1">Password</label>
+                    <div class="relative">
+                        <input type="password" class="w-full px-4 py-3 pl-10 rounded-xl input-glass text-white placeholder-white placeholder-opacity-70 focus:outline-none" placeholder="••••••••">
+                        <i class="fas fa-lock absolute left-3 top-1/2 transform -translate-y-1/2 text-white opacity-70"></i>
+                    </div>
+                </div>
+                
+                <div class="flex items-center justify-between pt-2">
+                    <div class="flex items-center">
+                        <input id="remember-me" type="checkbox" class="h-4 w-4 rounded input-glass border-white border-opacity-50 focus:ring-white">
+                        <label for="remember-me" class="ml-2 block text-sm text-white opacity-80">Remember me</label>
+                    </div>
+                    
+                    <a href="#" class="text-sm text-white opacity-80 hover:opacity-100 hover:underline">Forgot password?</a>
+                </div>
+                
+                <div class="pt-4">
+                    <button type="button" class="w-full px-6 py-3 rounded-xl btn-glass text-white font-medium hover:shadow-lg transition-all duration-300 flex items-center justify-center space-x-2">
+                        <span>Sign in with Google</span>
+                        <i class="fab fa-google"></i>
+                    </button>
+                </div>
+                
+                <div class="pt-2">
+                    <button type="button" class="w-full px-6 py-3 rounded-xl btn-glass text-white font-medium hover:shadow-lg transition-all duration-300 flex items-center justify-center space-x-2">
+                        <span>Create new account</span>
+                        <i class="fas fa-user-plus"></i>
+                    </button>
+                </div>
+                
+                <div>
+                    <button type="submit" class="w-full px-6 py-3 rounded-xl bg-white bg-opacity-30 hover:bg-opacity-40 text-white font-medium hover:shadow-lg transition-all duration-300 flex items-center justify-center space-x-2">
+                        <span>Login</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </form>
+            
+            <div class="mt-6 pt-4 border-t border-white border-opacity-20">
+                <p class="text-center text-white opacity-70 text-sm">
+                    By continuing, you agree to our <a href="#" class="hover:underline">Terms of Service</a> and <a href="#" class="hover:underline">Privacy Policy</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Form submission for login
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Here you would typically handle the login logic
+            alert('Login functionality would be implemented here');
+        });
+        
+        // Add floating animation to card on load
+        document.addEventListener('DOMContentLoaded', function() {
+            const card = document.querySelector('.hybrid-card');
+            card.style.animation = 'none';
+            void card.offsetWidth; // Trigger reflow
+            card.style.animation = 'floating 6s ease-in-out infinite';
+        });
+    </script>
+</body>
+</html>

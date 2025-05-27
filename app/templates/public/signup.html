@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Future You</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: 'rgba(255, 255, 255, 0.25)',
+                        secondary: 'rgba(255, 255, 255, 0.1)',
+                        dark: 'rgba(0, 0, 0, 0.2)',
+                        accent: 'rgba(148, 163, 184, 0.3)',
+                    },
+                    boxShadow: {
+                        'glass': '0 8px 32px 0 rgba(31, 38, 135, 0.37)',
+                        'neumorphic': '20px 20px 60px #bebebe, -20px -20px 60px #ffffff',
+                        'inner-glass': 'inset 0 0 12px rgba(255, 255, 255, 0.5)',
+                    },
+                    backdropBlur: {
+                        'sm': '4px',
+                        'md': '8px',
+                        'lg': '16px',
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        }
+        
+        .neumorphic-card {
+            background: linear-gradient(145deg, #e6e6e6, #ffffff);
+            box-shadow: 20px 20px 60px #bebebe, -20px -20px 60px #ffffff;
+            border-radius: 20px;
+        }
+        
+        .hybrid-card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 20px;
+            box-shadow: 20px 20px 60px rgba(0, 0, 0, 0.2), -20px -20px 60px rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .parallax-layer {
+            transform-style: preserve-3d;
+        }
+        
+        .floating {
+            animation: floating 6s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .glow {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+        }
+        
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .active-page {
+            display: block;
+        }
+        
+        .input-glass {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .input-glass:focus {
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4);
+        }
+        
+        .btn-glass {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+        
+        .btn-glass:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+        }
+        
+        .avatar-upload {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto;
+        }
+        
+        .avatar-edit {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            z-index: 1;
+        }
+        
+        .avatar-preview {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        .thought-card {
+            transform-style: preserve-3d;
+            transform: perspective(1000px);
+            transition: all 0.5s ease;
+        }
+        
+        .thought-card:hover {
+            transform: perspective(1000px) rotateX(5deg) rotateY(5deg) translateY(-10px);
+        }
+        
+        .parallax-bg {
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+    <div class="fixed inset-0 overflow-hidden">
+        <div class="absolute inset-0 bg-black opacity-20"></div>
+        <div class="absolute top-0 left-0 w-full h-full flex items-center justify-center">
+            <div class="w-64 h-64 rounded-full bg-white opacity-10 blur-3xl"></div>
+        </div>
+        <div class="absolute top-1/4 left-1/4 w-32 h-32 rounded-full bg-purple-300 opacity-20 blur-2xl"></div>
+        <div class="absolute bottom-1/4 right-1/4 w-40 h-40 rounded-full bg-blue-300 opacity-20 blur-2xl"></div>
+    </div>
+
+    <div class="relative w-full max-w-6xl mx-auto">
+        <!-- Account Creation Page -->
+        <div id="create-account" class="page active-page">
+            <div class="hybrid-card p-8 max-w-md mx-auto floating">
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl font-bold text-white glow mb-2">Create Your Future</h1>
+                    <p class="text-white opacity-80">Begin your journey to becoming your best self</p>
+                </div>
+                
+                <div class="avatar-upload mb-6">
+                    <div class="avatar-edit">
+                        <input type="file" id="imageUpload" accept=".png, .jpg, .jpeg" class="hidden" />
+                        <label for="imageUpload" class="flex items-center justify-center w-10 h-10 rounded-full bg-white bg-opacity-30 backdrop-blur-md border border-white border-opacity-30 cursor-pointer shadow-lg">
+                            <i class="fas fa-camera text-white"></i>
+                        </label>
+                    </div>
+                    <div class="avatar-preview bg-white bg-opacity-20 backdrop-blur-md border-4 border-white border-opacity-30 shadow-lg">
+                        <div id="imagePreview" class="w-full h-full rounded-full flex items-center justify-center">
+                            <i class="fas fa-user text-white text-4xl"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <form id="signup-form" class="space-y-4">
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-1">Full Name</label>
+                        <input type="text" class="w-full px-4 py-3 rounded-xl input-glass text-white placeholder-white placeholder-opacity-70 focus:outline-none" placeholder="Your name">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-1">Email</label>
+                        <input type="email" class="w-full px-4 py-3 rounded-xl input-glass text-white placeholder-white placeholder-opacity-70 focus:outline-none" placeholder="your@email.com">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-1">Password</label>
+                        <input type="password" class="w-full px-4 py-3 rounded-xl input-glass text-white placeholder-white placeholder-opacity-70 focus:outline-none" placeholder="••••••••">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-1">Age</label>
+                        <input type="number" class="w-full px-4 py-3 rounded-xl input-glass text-white placeholder-white placeholder-opacity-70 focus:outline-none" placeholder="Your age">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-1">Occupation</label>
+                        <input type="text" class="w-full px-4 py-3 rounded-xl input-glass text-white placeholder-white placeholder-opacity-70 focus:outline-none" placeholder="What you do">
+                    </div>
+                    
+                    <div class="pt-4">
+                        <button type="button" onclick="showPage('login')" class="w-full px-6 py-3 rounded-xl btn-glass text-white font-medium hover:shadow-lg transition-all duration-300 flex items-center justify-center space-x-2">
+                            <span>Already have an account?</span>
+                            <i class="fas fa-sign-in-alt"></i>
+                        </button>
+                    </div>
+                    
+                    <div>
+                        <button type="submit" class="w-full px-6 py-3 rounded-xl bg-white bg-opacity-30 hover:bg-opacity-40 text-white font-medium hover:shadow-lg transition-all duration-300 flex items-center justify-center space-x-2">
+                            <span>Create Account</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Login Page -->
+        <div id="login" class="page">
+            <div class="hybrid-card p-8 max-w-md mx-auto floating">
+                <div class="text-center mb-8">
+                    <h1 class="text-3xl font-bold text-white glow mb-2">Welcome Back</h1>
+                    <p class="text-white opacity-80">Continue your journey to your future self</p>
+                </div>
+                
+                <form id="login-form" class="space-y-4">
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-1">Email</label>
+                        <input type="email" class="w-full px-4 py-3 rounded-xl input-glass text-white placeholder-white placeholder-opacity-70 focus:outline-none" placeholder="your@email.com">
+                    </div>
+                    
+                    <div>
+                        <label class="block text-white text-sm font-medium mb-1">Password</label>
+                        <input type="password" class="w-full px-4 py-3 rounded-xl input-glass text-white placeholder-white placeholder-opacity-70 focus:outline-none" placeholder="••••••••">
+                    </div>
+                    
+                    <div class="flex items-center justify-between pt-2">
+                        <div class="flex items-center">
+                            <input id="remember-me" type="checkbox" class="h-4 w-4 rounded input-glass border-white border-opacity-50 focus:ring-white">
+                            <label for="remember-me" class="ml-2 block text-sm text-white opacity-80">Remember me</label>
+                        </div>
+                        
+                        <a href="#" class="text-sm text-white opacity-80 hover:opacity-100">Forgot password?</a>
+                    </div>
+                    
+                    <div class="pt-4">
+                        <button type="button" onclick="showPage('create-account')" class="w-full px-6 py-3 rounded-xl btn-glass text-white font-medium hover:shadow-lg transition-all duration-300 flex items-center justify-center space-x-2">
+                            <span>Create new account</span>
+                            <i class="fas fa-user-plus"></i>
+                        </button>
+                    </div>
+                    
+                    <div>
+                        <button type="button" onclick="showPage('homepage')" class="w-full px-6 py-3 rounded-xl bg-white bg-opacity-30 hover:bg-opacity-40 text-white font-medium hover:shadow-lg transition-all duration-300 flex items-center justify-center space-x-2">
+                            <span>Login</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <!-- Homepage -->
+        <div id="homepage" class="page">
+            <div class="flex flex-col lg:flex-row gap-6">
+                <!-- You Now Section (1/3) -->
+                <div class="w-full lg:w-1/3">
+                    <div class="hybrid-card p-6 h-full">
+                        <div class="text-center mb-6">
+                            <h2 class="text-2xl font-bold text-white glow mb-1">You Now</h2>
+                            <p class="text-white opacity-80 text-sm">Empowering subconscious processing</p>
+                        </div>
+                        
+                        <div class="flex flex-col items-center mb-6">
+                            <div class="w-24 h-24 rounded-full bg-white bg-opacity-20 backdrop-blur-md border-4 border-white border-opacity-30 shadow-lg mb-4 overflow-hidden">
+                                <img id="profile-image" src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" alt="Profile" class="w-full h-full object-cover">
+                            </div>
+                            <h3 class="text-xl font-semibold text-white" id="profile-name">Alex Johnson</h3>
+                            <p class="text-white opacity-80 text-sm" id="profile-occupation">Digital Designer</p>
+                        </div>
+                        
+                        <div class="mb-6">
+                            <div class="glass-card p-4 rounded-lg mb-4">
+                                <p class="text-white italic text-center" id="profile-quote">"The only way to do great work is to love what you do."</p>
+                            </div>
+                            
+                            <div class="glass-card p-4 rounded-lg mb-4">
+                                <h4 class="text-white font-medium mb-2 flex items-center">
+                                    <i class="fas fa-birthday-cake mr-2"></i> Age
+                                </h4>
+                                <p class="text-white opacity-90" id="profile-age">28</p>
+                            </div>
+                            
+                            <div class="glass-card p-4 rounded-lg mb-4">
+                                <h4 class="text-white font-medium mb-2 flex items-center">
+                                    <i class="fas fa-bullseye mr-2"></i> 1 Month Goal
+                                </h4>
+                                <p class="text-white opacity-90" id="profile-1month-goal">Complete UX design course</p>
+                            </div>
+                            
+                            <div class="glass-card p-4 rounded-lg mb-4">
+                                <h4 class="text-white font-medium mb-2 flex items-center">
+                                    <i class="fas fa-calendar-alt mr-2"></i> 1 Year Goal
+                                </h4>
+                                <p class="text-white opacity-90" id="profile-1year-goal">Lead a design team at a startup</p>
+                            </div>
+                            
+                            <div class="glass-card p-4 rounded-lg mb-4">
+                                <h4 class="text-white font-medium mb-2 flex items-center">
+                                    <i class="fas fa-calendar-plus mr-2"></i> 10 Year Goal
+                                </h4>
+                                <p class="text-white opacity-90" id="profile-10year-goal">Run a successful design agency</p>
+                            </div>
+                            
+                            <div class="glass-card p-4 rounded-lg mb-4">
+                                <h4 class="text-white font-medium mb-2 flex items-center">
+                                    <i class="fas fa-smile mr-2"></i> What Makes Me Happy
+                                </h4>
+                                <p class="text-white opacity-90" id="profile-happiness">Creative projects, nature walks, and good coffee</p>
+                            </div>
+                            
+                            <div class="glass-card p-4 rounded-lg">
+                                <h4 class="text-white font-medium mb-2 flex items-center">
+                                    <i class="fas fa-heart mr-2"></i> What I Believe In
+                                </h4>
+                                <p class="text-white opacity-90" id="profile-beliefs">Design can solve real-world problems and improve lives</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Thoughts - Future You Section (2/3) -->
+                <div class="w-full lg:w-2/3">
+                    <div class="hybrid-card p-6 h-full">
+                        <div class="text-center mb-6">
+                            <h2 class="text-2xl font-bold text-white glow mb-1">Thoughts - Future You</h2>
+                            <p class="text-white opacity-80 text-sm">Actionable - Inspiring - Challenging</p>
+                        </div>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                            <!-- Facts Card -->
+                            <div class="thought-card glass-card p-4 rounded-lg hover:shadow-lg">
+                                <h3 class="text-white font-medium mb-2 flex items-center">
+                                    <i class="fas fa-lightbulb mr-2"></i> Facts
+                                </h3>
+                                <ul class="text-white opacity-90 space-y-2">
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle mt-1 mr-2 text-xs"></i>
+                                        <span>It takes 21 days to form a habit, but 66 days to make it automatic</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle mt-1 mr-2 text-xs"></i>
+                                        <span>Morning people are more proactive and likely to anticipate problems</span>
+                                    </li>
+                                    <li class="flex items-start">
+                                        <i class="fas fa-check-circle mt-1 mr-2 text-xs"></i>
+                                        <span>Learning new skills increases neuroplasticity at any age</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <!-- Quotes Card -->
+                            <div class="thought-card glass-card p-4 rounded-lg hover:shadow-lg">
+                                <h3 class="text-white font-medium mb-2 flex items-center">
+                                    <i class="fas fa-quote-left mr-2"></i> Quotes
+                                </h3>
+                                <div class="text-white opacity-90 space-y-3">
+                                    <blockquote class="italic">
+                                        "Your future is created by what you do today, not tomorrow."
+                                        <footer class="text-right text-sm mt-1 not-italic">— Robert Kiyosaki</footer>
+                                    </blockquote>
+                                    <blockquote class="italic">
+                                        "The best way to predict the future is to create it."
+                                        <footer class="text-right text-sm mt-1 not-italic">— Peter Drucker</footer>
+                                    </blockquote>
+                                </div>
+                            </div>
+                            
+                            <!-- Resources Card -->
+                            <div class="thought-card glass-card p-4 rounded-lg hover:shadow-lg">
+                                <h3 class="text-white font-medium mb-2 flex items-center">
+                                    <i class="fas fa-link mr-2"></i> Websites & Resources
+                                </h3>
+                                <div class="text-white opacity-90 space-y-2">
+                                    <a href="#" class="flex items-center hover:underline">
+                                        <i class="fas fa-external-link-alt mr-2 text-xs"></i>
+                                        <span>FutureLearn - Free online courses</span>
+                                    </a>
+                                    <a href="#" class="flex items-center hover:underline">
+                                        <i class="fas fa-external-link-alt mr-2 text-xs"></i>
+                                        <span>DesignBetter - Design education</span>
+                                    </a>
+                                    <a href="#" class="flex items-center hover:underline">
+                                        <i class="fas fa-external-link-alt mr-2 text-xs"></i>
+                                        <span>MindTools - Career development</span>
+                                    </a>
+                                </div>
+                            </div>
+                            
+                            <!-- Actionable Items Card -->
+                            <div class="thought-card glass-card p-4 rounded-lg hover:shadow-lg">
+                                <h3 class="text-white font-medium mb-2 flex items-center">
+                                    <i class="fas fa-tasks mr-2"></i> Actionable Items
+                                </h3>
+                                <div class="space-y-3">
+                                    <div class="flex items-start">
+                                        <input type="checkbox" id="task1" class="mt-1 mr-2">
+                                        <label for="task1" class="text-white opacity-90 flex-1">Complete one module of your online course</label>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <input type="checkbox" id="task2" class="mt-1 mr-2">
+                                        <label for="task2" class="text-white opacity-90 flex-1">Connect with one person in your industry</label>
+                                    </div>
+                                    <div class="flex items-start">
+                                        <input type="checkbox" id="task3" class="mt-1 mr-2">
+                                        <label for="task3" class="text-white opacity-90 flex-1">Spend 30 minutes visualizing your 10-year goal</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Journal Section -->
+                        <div class="glass-card p-4 rounded-lg mb-6">
+                            <h3 class="text-white font-medium mb-3 flex items-center">
+                                <i class="fas fa-book mr-2"></i> Future Journal
+                            </h3>
+                            <textarea class="w-full px-4 py-3 rounded-xl input-glass text-white placeholder-white placeholder-opacity-70 focus:outline-none min-h-[120px]" placeholder="Write a letter to your future self..."></textarea>
+                            <div class="flex justify-end mt-2">
+                                <button class="px-4 py-2 rounded-lg btn-glass text-white text-sm">Save Entry</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Progress Tracker -->
+                        <div class="glass-card p-4 rounded-lg">
+                            <h3 class="text-white font-medium mb-3 flex items-center">
+                                <i class="fas fa-chart-line mr-2"></i> Progress Tracker
+                            </h3>
+                            <div class="space-y-4">
+                                <div>
+                                    <div class="flex justify-between text-white text-sm mb-1">
+                                        <span>1 Month Goal Progress</span>
+                                        <span>45%</span>
+                                    </div>
+                                    <div class="w-full bg-white bg-opacity-20 rounded-full h-2.5">
+                                        <div class="bg-white h-2.5 rounded-full" style="width: 45%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-white text-sm mb-1">
+                                        <span>1 Year Goal Progress</span>
+                                        <span>18%</span>
+                                    </div>
+                                    <div class="w-full bg-white bg-opacity-20 rounded-full h-2.5">
+                                        <div class="bg-white h-2.5 rounded-full" style="width: 18%"></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="flex justify-between text-white text-sm mb-1">
+                                        <span>10 Year Goal Progress</span>
+                                        <span>5%</span>
+                                    </div>
+                                    <div class="w-full bg-white bg-opacity-20 rounded-full h-2.5">
+                                        <div class="bg-white h-2.5 rounded-full" style="width: 5%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Logout Button -->
+            <div class="mt-6 text-center">
+                <button onclick="showPage('login')" class="px-6 py-2 rounded-xl btn-glass text-white hover:bg-opacity-40 flex items-center justify-center mx-auto space-x-2">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Page navigation
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active-page');
+            });
+            document.getElementById(pageId).classList.add('active-page');
+            
+            // Add floating animation to cards when page changes
+            const cards = document.querySelectorAll('.hybrid-card, .glass-card, .thought-card');
+            cards.forEach(card => {
+                card.style.animation = 'none';
+                void card.offsetWidth; // Trigger reflow
+                card.style.animation = 'fadeIn 0.5s ease-in-out';
+            });
+        }
+        
+        // Profile image upload preview
+        document.getElementById('imageUpload').addEventListener('change', function(e) {
+            if (e.target.files.length) {
+                const src = URL.createObjectURL(e.target.files[0]);
+                document.getElementById('imagePreview').style.backgroundImage = `url(${src})`;
+                document.getElementById('imagePreview').innerHTML = '';
+                
+                // Also update the profile image in the homepage
+                document.getElementById('profile-image').src = src;
+            }
+        });
+        
+        // Form submission for account creation
+        document.getElementById('signup-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form values
+            const name = this.querySelector('input[type="text"]').value;
+            const email = this.querySelector('input[type="email"]').value;
+            const age = this.querySelector('input[type="number"]').value;
+            const occupation = this.querySelectorAll('input[type="text"]')[1].value;
+            
+            // Update profile in homepage
+            if (name) document.getElementById('profile-name').textContent = name;
+            if (age) document.getElementById('profile-age').textContent = age;
+            if (occupation) document.getElementById('profile-occupation').textContent = occupation;
+            
+            // Show homepage
+            showPage('homepage');
+            
+            // Add floating animation to all cards
+            const cards = document.querySelectorAll('.hybrid-card, .glass-card, .thought-card');
+            cards.forEach((card, index) => {
+                card.style.animation = 'none';
+                void card.offsetWidth; // Trigger reflow
+                card.style.animation = `fadeIn 0.5s ease-in-out ${index * 0.1}s`;
+            });
+        });
+        
+        // Form submission for login
+        document.getElementById('login-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showPage('homepage');
+        });
+        
+        // Add parallax effect on mouse move
+        document.addEventListener('mousemove', function(e) {
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+            
+            const cards = document.querySelectorAll('.thought-card');
+            cards.forEach(card => {
+                card.style.transform = `perspective(1000px) rotateX(${(0.5 - y) * 10}deg) rotateY(${(x - 0.5) * 10}deg) translateZ(20px)`;
+            });
+            
+            const hybridCards = document.querySelectorAll('.hybrid-card');
+            hybridCards.forEach(card => {
+                card.style.transform = `translateY(${(0.5 - y) * 10}px) translateX(${(x - 0.5) * 10}px)`;
+            });
+        });
+        
+        // Initialize with some sample data
+        window.addEventListener('load', function() {
+            const quotes = [
+                "The only way to do great work is to love what you do.",
+                "Your time is limited, don't waste it living someone else's life.",
+                "Innovation distinguishes between a leader and a follower.",
+                "The future belongs to those who believe in the beauty of their dreams."
+            ];
+            
+            // Set a random quote
+            document.getElementById('profile-quote').textContent = quotes[Math.floor(Math.random() * quotes.length)];
+        });
+    </script>
+</body>
+</html>

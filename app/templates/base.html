@@ -1,0 +1,16 @@
+<!doctype html><html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>{% block title %}MindForge{% endblock %}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+</head>
+<body class="min-h-screen bg-slate-100 flex flex-col">
+  {% with msgs = get_flashed_messages(with_categories=true) %}
+  {% if msgs %}
+    <ul class="p-4">{% for c,m in msgs %}
+      <li class="text-sm {{'text-red-600' if c=='error' else 'text-green-600'}}">{{ m }}</li>
+    {% endfor %}</ul>
+  {% endif %}{% endwith %}
+  {% block content %}{% endblock %}
+</body></html>
